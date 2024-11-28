@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Bem-te-vi</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #add8e6;
+        }
+        #bemtevi {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <img id="bemtevi" src="bemtevi.png" alt="Bem-te-vi" width="100" height="100" style="display:none;">
+    <audio id="whistle" src="assobio.mp3"></audio>
+
+    <script>
+        const bemtevi = document.getElementById("bemtevi");
+        const whistle = document.getElementById("whistle");
+
+        function getRandomPosition() {
+            const screenWidth = window.innerWidth - 100; // Subtraindo o tamanho do bem-te-vi
+            const screenHeight = window.innerHeight - 100;
+            const randomX = Math.floor(Math.random() * screenWidth);
+            const randomY = Math.floor(Math.random() * screenHeight);
+            return { x: randomX, y: randomY };
+        }
+
+        function moveBemTeVi() {
+            const { x, y } = getRandomPosition();
+            bemtevi.style.left = `${x}px`;
+            bemtevi.style.top = `${y}px`;
+            bemtevi.style.display = "block";
+
+            // Esconde o bem-te-vi após 5 segundos se não for clicado
+            setTimeout(() => {
+                bemtevi.style.display = "none";
+            }, 5000);
+        }
+
+        // Configura evento de clique no bem-te-vi
+        bemtevi.addEventListener("click", () => {
+            whistle.play(); // Toca o som
+            bemtevi.style.display = "none"; // Esconde o bem-te-vi
+        });
+
+        // Move o bem-te-vi a cada 5 segundos
+        setInterval(moveBemTeVi, 5000);
+
+        // Inicia o jogo ao carregar a página
+        moveBemTeVi();
+    </script>
+</body>
+</html>

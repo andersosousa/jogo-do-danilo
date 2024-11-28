@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Danilo</title>
+    <style>
+        /* Configuração da página */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-image: url('floresta.jpg'); /* Caminho da imagem de fundo */
+            background-size: cover; /* Preenche a tela mantendo a proporção */
+            background-repeat: no-repeat; /* Evita repetição da imagem */
+            background-position: center; /* Centraliza a imagem */
+            font-family: Arial, sans-serif;
+            height: 100vh; /* Garante que a tela seja preenchida verticalmente */
+        }
+
+        /* Mensagem no topo */
+        #message {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilo do Danilo (imagem) */
+        #bemtevi {
+            position: absolute;
+            cursor: pointer;
+            display: none;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mensagem no topo -->
+    <div id="message">Clique no Danilo!</div>
+
+    <!-- Imagem do Danilo -->
+    <img id="bemtevi" src="bemtevi.png" alt="Danilo" width="100" height="100">
+
+    <!-- Áudio do assobio -->
+    <audio id="whistle" src="assobio.mp3"></audio>
+
+    <script>
+        // Seleciona os elementos
+        const bemtevi = document.getElementById("bemtevi");
+        const whistle = document.getElementById("whistle");
+
+        // Função para gerar posições aleatórias na tela
+        function getRandomPosition() {
+            const screenWidth = window.innerWidth - 100; // Subtraindo largura da imagem
+            const screenHeight = window.innerHeight - 100; // Subtraindo altura da imagem
+            const randomX = Math.floor(Math.random() * screenWidth);
+            const randomY = Math.floor(Math.random() * screenHeight);
+            return { x: randomX, y: randomY };
+        }
+
+        // Função para mover o Danilo para uma posição aleatória
+        function moveBemTeVi() {
+            const { x, y } = getRandomPosition();
+            bemtevi.style.left = `${x}px`;
+            bemtevi.style.top = `${y}px`;
+            bemtevi.style.display = "block"; // Faz o Danilo aparecer
+
+            // Esconde o Danilo após 3 segundos, se não for clicado
+            setTimeout(() => {
+                bemtevi.style.display = "none";
+            }, 3000); // Danilo visível por 3 segundos
+        }
+
+        // Evento de clique no Danilo
+        bemtevi.addEventListener("click", () => {
+            whistle.play(); // Toca o som
+            bemtevi.style.display = "none"; // Esconde o Danilo após o clique
+        });
+
+        // Move o Danilo a cada 6 segundos
+        setInterval(moveBemTeVi, 6000); // Novo movimento a cada 6 segundos
+
+        // Inicia o movimento do Danilo
+        moveBemTeVi();
+    </script>
+</body>
+</html>
